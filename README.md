@@ -1,4 +1,14 @@
 # Tecnologias utilizadas
+- **ASP.NET Core 8.0**
+    - Framework de desenvolvimento para criar aplicativos web modernos, baseados em nuvem e de alto desempenho. Oferece suporte para API's RESTful, aplicativos MVC, e muito mais.
+- **Prometheus**
+    - Sistema de monitoramento e alerta que coleta e armazena métricas como séries temporais. É frequentemente usado para monitorar a performance de sistemas distribuídos.
+- **Grafana**
+    - Plataforma de análise e visualização de métricas, usada para criar dashboards dinâmicos e interativos. Integra-se facilmente com Prometheus para visualizar métricas coletadas.
+- **OpenTelemetry**
+    - Framework de observabilidade que permite a instrumentação de código para coletar métricas, rastreamentos e logs de forma consistente e facilita a integração com ferramentas de monitoramento e diagnóstico.
+- **Docker**
+    - Plataforma de contêineres que permite aos desenvolvedores empacotar aplicações e suas dependências em contêineres.
 
 # Relatório
 
@@ -11,7 +21,7 @@ Inicialmente, foi criada uma solução Web Application utilizando o comando `dot
 O resultado foi o seguinte:
 
 <p align="center">
-<img src="./assets/1.png">
+<img width="80%" src="./assets/1.png">
 </p>
 
 ### 1.2 Adição dos packages necessários
@@ -21,11 +31,11 @@ Em seguida, os packages `OpenTelemetry.Exporter.Prometheus.AspNetCore` e `OpenTe
 O resultado foi o seguinte:
 
 <p align="center">
-<img src="./assets/2.png">
+<img width="80%" src="./assets/2.png">
 </p>
 
 <p align="center">
-<img src="./assets/3.png">
+<img width="80%" src="./assets/3.png">
 </p>
 
 ### 1.3. Criação do Program.cs
@@ -270,16 +280,18 @@ Além disso, foi criada uma pasta prometheus com o arquivo `prometheus.yml`, que
 
 ### 4.4. Coleta das métricas no Prometheus
 
+Com o container rodando, ao abrir na porta 9090(tipicamente usada pelo Prometheusa) e ir até a aba Targets na interface do usuário, foi possível observar a conexão bem sucedida com a aplicação .NET.
+
 <p align="center">
 <img src="./assets/23.png">
 </p>
 
-<p align="center">
-<img src="./assets/24.png">
-</p>
+Em seguida, a métrica `kestrel_connection_duration_seconds_bucket` foi selecionada e foi possível observar seus registros em unidades ou de forma gráfica a partir do Metrics Explorer.
+
+Esta é uma métrica específica relacionada à aplicação .NET. Kestrel é um servidor web multiplataforma para ASP.NET Core e esta métrica mede a duração das conexões com o servidor em segundos.
 
 <p align="center">
-<img src="./assets/25.png">
+<img src="./assets/24.png">
 </p>
 
 <p align="center">
@@ -292,13 +304,19 @@ Além disso, foi criada uma pasta prometheus com o arquivo `prometheus.yml`, que
 
 ### 4.5. Dashboard de visualização das métricas no Grafana
 
+Ao abrir na porta 3000(tipicamente usada pelo Grafana), foi possível visualizar a página inicial do Grafana.
+
 <p align="center">
 <img src="./assets/28.png">
 </p>
 
+O Grafana oferece vários templates de painéis pré-construídos. Aqui, um padrão para aplicações .NET é escolhido e seu ID é copiado para importação no Grafana.
+
 <p align="center">
 <img src="./assets/29.png">
 </p>
+
+ Na aba Connections, o Prometheus é adicionado como uma fonte de dados. Isso significa que o painel usará o Prometheus para obter os dados que exibe.
 
 <p align="center">
 <img src="./assets/30.png">
@@ -312,24 +330,24 @@ Além disso, foi criada uma pasta prometheus com o arquivo `prometheus.yml`, que
 <img src="./assets/32.png">
 </p>
 
-<p align="center">
-<img src="./assets/33.png">
-</p>
+Por fim, na aba de Dashboards uma nova visão é adicionada ao painel usando o ID previamente copiado do template de painel para aplicações .NET.
 
 <p align="center">
-<img src="./assets/34.png">
+<img src="./assets/33.png">
 </p>
 
 <p align="center">
 <img src="./assets/35.png">
 </p>
 
+A fonte de dados para a nova visão é definida como a instância do Prometheus previamente configurada. Isso significa que a nova visão exibirá dados obtidos do Prometheus.
+
 <p align="center">
 <img src="./assets/36.png">
 </p>
 
+Aqui, foi possível observar o Dashboard com métricas de uma aplicação .NET coletadas a partir do OpenTelemetry e Prometheus.
+
 <p align="center">
 <img src="./assets/37.png">
 </p>
-
-# Conceitos aprendidos
